@@ -4,8 +4,10 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "prebuild": "rm -rf dist/*",
-        "build": "tsc && cp static/ dist -rf",
+        "prebuild": "rm -rf dist/* client/build",
+        "buildClient": "cd client && npm i && npm run build && cd ..",
+        "buildServer": "tsc",
+        "build": "npm run buildServer && npm run buildClient && cp client/build dist -rf",
         "prestart": "npm run build",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
