@@ -17,6 +17,7 @@ function App() {
         >
           Learn React
         </a>
+        <p>Est-ce que ça refresh quand on push sur la branche dev ?</p>
       </header>
     </div>
   );
