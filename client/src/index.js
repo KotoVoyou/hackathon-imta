@@ -24,23 +24,18 @@ class NumberForm extends React.Component {
 
   handleChange(event) {    this.setState({value: event.target.value});  }
   handleSubmit(event) {
-    var form = new FormData();
-    form.append("number", this.state.value);
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
     fetch("https://hackathon-imta.osc-fr1.scalingo.io/api/multiply2", {
       method: "PUT",
-      body: JSON.stringify( {"number": 3} ),
+      body: JSON.stringify( {"number": this.state.value} ),
       headers: myHeaders
     })
       .then(res => res.json())
       .then(
         (res) => {
-          this.setState((state, props) => (
-              {result: res.result}
-            )
-          )
+          this.setState((state, props) => ({result: res.result}))
         }
       );
 
