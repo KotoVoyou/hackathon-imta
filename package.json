@@ -6,9 +6,12 @@
     "scripts": {
         "prebuild": "rm -rf dist/* client/build",
         "buildClient": "cd client && npm run build && cd ..",
-        "buildServer": "tsc",
+        "buildServer": "rm -rf dist/*.js dist/*.js.map && tsc",
         "build": "npm run buildServer && npm run buildClient && cp client/build dist -rf",
         "prestart": "npm run build",
+        "startServer": "node dist/index.js",
+        "startClient": "cd client && npm run start",
+        "devServer": "npm run buildServer && npm run startServer",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "keywords": [],

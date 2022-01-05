@@ -1,9 +1,18 @@
 import express from "express";
 
 const app = express();
+app.use(express.json());
 
-app.get("/hello", (req, res) => {
-    res.send("Hello scalingo!");
+app.put("/api/multiply2", (req, res) => {
+    if (!req.body.number) {
+        return res.status(400).send("Number is missing");
+    }
+
+    let x: number = req.body.number;
+
+    res.status(200).json({
+        result: x * 2,
+    });
 });
 
 const staticDirectory = `${__dirname}/${process.env.STATIC_DIR || "dist"}`;
