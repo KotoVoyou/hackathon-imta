@@ -26,15 +26,17 @@ class NumberForm extends React.Component {
   handleSubmit(event) {
     var form = new FormData();
     form.append("number", this.state.value);
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
 
     fetch("https://hackathon-imta.osc-fr1.scalingo.io/api/multiply2", {
       method: "PUT",
-      body: form
+      body: JSON.stringify( {"number": 3} ),
+      headers: myHeaders
     })
       .then(res => res.json())
       .then(
         (res) => {
-          console.log("HI");
           this.setState((state, props) => (
               {result: res.result}
             )
