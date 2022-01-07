@@ -6,6 +6,8 @@ Tout le code est hébergé sous Github dans un repo privé. Un dossier client po
 
 ![](images/image10.png)
 
+Commencer par cloner le repo [https://github.com/KotoVoyou/hackathon-imta/](https://github.com/KotoVoyou/hackathon-imta/)
+
 ## Développement local
 
 Le client est écrit en react et l’API grâce au framework express en typescript donc Node.js est nécessaire pour le fonctionnement du projet. Les versions utilisées sont 14.18.2 pour node et 6.14.15 pour npm.
