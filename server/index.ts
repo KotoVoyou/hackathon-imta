@@ -8,31 +8,37 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.put("/api/multiply2", (req, res) => {
-    if (!req.body.number) {
-        return res.status(400).send("Number is missing");
-    }
-
-    let x: number = req.body.number;
-
-    res.status(200).json({
-        result: x * 2,
-    });
-});
+interface MathAPIRequest {
+    number: number;
+}
 
 interface MathJsAPIResponse {
     result: string;
     error: string | null;
 }
 
-app.put("/api/divide2", (req, res) => {
-    if (!req.body.number) return res.status(400).send("Number is missing");
+function isMathAPIRequest(request: any): request is MathAPIRequest {
+    return request.number !== undefined && request.number !== null;
+}
 
-    let x: number = req.body.number;
+app.put("/api/multiply2", (req, res) => {
+    if (!isMathAPIRequest(req.body)) return res.status(400).send("Request is wrong");
+
+    let { number } = req.body;
+
+    res.status(200).json({
+        result: number * 2,
+    });
+});
+
+app.put("/api/divide2", (req, res) => {
+    if (!isMathAPIRequest(req.body)) return res.status(400).send("Request is wrong");
+
+    let { number } = req.body;
 
     axios
         .post("http://api.mathjs.org/v4/", {
-            expr: `${x}/2`,
+            expr: `${number}/2`,
         })
         .then((response) => response.data as MathJsAPIResponse)
         .then((data) => {
