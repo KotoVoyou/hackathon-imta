@@ -66,3 +66,9 @@ Pour travailler en collaboration avec d’autres développeurs, il faut leur aut
 
 ![](images/image4.png)
 ![](images/image9.png)
+
+## Variable environnement
+
+TODO
+
+## Installation d'une base de données
