@@ -2,27 +2,39 @@ import React from "react";
 import { ReactElement } from "react";
 import Card from "./Card";
 import { Campus, Slots, TAFs } from "./enums";
-import Filter, { FilterOptions } from "./Filter";
+import FilterPanel from "./Filter";
 import FilterList from "./Filter";
 import App2 from "./Filter";
 import logo from "./logo.svg";
 import "./UETable.css";
 
 import { useQuery, gql } from "@apollo/client";
+import { ObjectId } from "mongodb";
 
 interface UE {
+    id: ObjectId;
     name: string;
     slots: string[];
     locations: string[];
     logo?: string;
 }
 
-const UELIST: UE[] = [
-    { name: "Hackathon", slots: ["E"], locations: ["Nantes"], logo: logo },
-    { name: "Programmation appliquée aux systèmes embarqués", slots: ["D"], locations: ["Nantes"] },
-    { name: "Espagnol", slots: [], locations: ["Brest", "Nantes", "Rennes"] },
-    { name: "Un exemple 1", slots: ["E", "F"], locations: ["Nantes", "Rennes"] },
-];
+export interface FilterOptions {
+    slotOptions: string[];
+    campusOptions: string[];
+    tafOptions: string[];
+}
+
+interface SearchOptions extends FilterOptions {
+    filterText: string;
+}
+
+// const UELIST: UE[] = [
+//     { name: "Hackathon", slots: ["E"], locations: ["Nantes"], logo: logo },
+//     { name: "Programmation appliquée aux systèmes embarqués", slots: ["D"], locations: ["Nantes"] },
+//     { name: "Espagnol", slots: [], locations: ["Brest", "Nantes", "Rennes"] },
+//     { name: "Un exemple 1", slots: ["E", "F"], locations: ["Nantes", "Rennes"] },
+// ];
 
 type TableProps = { ues: UE[] } & { filters: FilterOptions };
 
@@ -75,17 +87,19 @@ export interface FilterBlockConfig {
     handler: (selection: string[]) => void;
 }
 
-class FilterableTable extends React.Component<{}, FilterOptions> {
+class FilterableTable extends React.Component<{}, SearchOptions> {
     constructor(props: {}) {
         super(props);
         this.state = {
             slotOptions: [...Slots],
             campusOptions: [...Campus],
             tafOptions: [...TAFs],
+            filterText: "",
         };
         this.handleSlotChange = this.handleSlotChange.bind(this);
         this.handleCampusChange = this.handleCampusChange.bind(this);
         this.handleTAFChange = this.handleTAFChange.bind(this);
+        this.handleFilterTextChange = this.handleFilterTextChange.bind(this);
     }
 
     handleSlotChange(selected: string[]) {
@@ -98,6 +112,10 @@ class FilterableTable extends React.Component<{}, FilterOptions> {
 
     handleTAFChange(selected: string[]) {
         this.setState({ tafOptions: selected });
+    }
+
+    handleFilterTextChange(filterText: string) {
+        this.setState({ filterText: filterText });
     }
 
     render() {
@@ -125,11 +143,13 @@ class FilterableTable extends React.Component<{}, FilterOptions> {
         return (
             <div className="row">
                 <div className="column1">
-                    <FilterList blocks={blocks} />
+                    <FilterPanel
+                        blocks={blocks}
+                        filterText={this.state.filterText}
+                        onFilterTextChange={this.handleFilterTextChange}
+                    />
                 </div>
-                <div className="column2">
-                    <Table ues={UELIST} filters={this.state} />
-                </div>
+                <div className="column2">{/* <Table ues={UELIST} filters={this.state} /> */}</div>
             </div>
         );
     }
@@ -152,7 +172,9 @@ function App(): ReactElement {
     if (loading) return <p>Chargement des UEs...</p>;
     if (error) return <p>Erreurr</p>;
 
-    const listUes = data.courses.map(({ name }: UE) => <li>{name}</li>);
+    const listUes = data.courses.map(({ id, name }: UE) => {
+        return <li key={id.toString()}>{name}</li>;
+    });
 
     return <ul>{listUes}</ul>;
 
