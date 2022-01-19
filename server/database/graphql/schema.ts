@@ -13,11 +13,34 @@ typeDefs.push(gql`
     }
 `);
 
+typeDefs.push(gql`
+    enum Location {
+        Brest
+        Nantes
+        Rennes
+    }
+
+    type Course {
+        id: ID!
+        name: String!
+        slots: [String]!
+        locations: [Location]!
+    }
+
+    input CourseFilter {
+        name: String
+        slots: String
+        locations: Location
+    }
+`);
+
 // Declare Query aka getter
 typeDefs.push(gql`
     type Query {
         users: [User]!
         user(id: ID!): User
+        courses(filter: CourseFilter): [Course]!
+        course(id: ID!): Course
     }
 `);
 
