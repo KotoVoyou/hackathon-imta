@@ -5,7 +5,9 @@ import App from "./UETable";
 
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 
-const apolloServerUri = process.env.APOLLO_SERVER_URI || "http://localhost:3001/graphql";
+const apolloServerUri =
+    process.env.APOLLO_SERVER_URI || "https://hackathon-imta.osc-fr1.scalingo.io/graphql";
+console.log(apolloServerUri);
 const apolloClient = new ApolloClient({
     uri: apolloServerUri,
     cache: new InMemoryCache(),
