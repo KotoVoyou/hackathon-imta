@@ -6,6 +6,7 @@ import FilterPanel from "./Filter";
 import FilterList from "./Filter";
 import App2 from "./Filter";
 import logo from "./logo.svg";
+import { GET_UES } from "./Queries"
 import "./UETable.css";
 
 import { useQuery, gql } from "@apollo/client";
@@ -160,7 +161,7 @@ const GQL_UES = gql`
 `;
 
 function App(): ReactElement {
-    const { loading, error, data } = useQuery(GQL_UES);
+    const { loading, error, data } = useQuery(GET_UES);
 
     if (loading) return <p>Chargement des UEs...</p>;
     if (error) return <p>Erreur</p>;
