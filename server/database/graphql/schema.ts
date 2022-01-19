@@ -27,6 +27,18 @@ typeDefs.push(gql`
         locations: [Location]!
     }
 
+    input CourseInput {
+        name: String!
+        slots: [String]
+        locations: [Location]
+    }
+
+    input CourseUpdate {
+        name: String
+        slots: [String]
+        locations: [Location]
+    }
+
     input CourseFilter {
         name: String
         slots: String
@@ -49,6 +61,9 @@ typeDefs.push(gql`
     type Mutation {
         createUser(name: String!, age: Int!, email: String): User!
         deleteUser(id: ID!): Boolean!
+        createCourse(input: CourseInput!): Course!
+        updateCourse(id: ID!, update: CourseUpdate!): Course!
+        deleteCourse(id: ID!): Boolean!
     }
 `);
 

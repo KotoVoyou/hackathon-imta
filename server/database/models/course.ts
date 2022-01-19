@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, ObjectId } from "mongoose";
 
 enum Location {
     "Brest",
@@ -12,6 +12,17 @@ export interface Course {
     locations: Array<Location>;
 }
 
+export interface CourseInput {
+    name: string;
+    slots?: Array<string>;
+    locations?: Array<string>;
+}
+
+export interface CourseUpdate {
+    name?: string;
+    slots?: string;
+    locations?: Location;
+}
 export interface CourseFilter {
     name?: string;
     slots?: string;
@@ -20,8 +31,8 @@ export interface CourseFilter {
 
 const schema = new Schema<Course>({
     name: { type: String, required: true },
-    slots: { type: [String] },
-    locations: { type: [String] },
+    slots: { type: [String], required: true, default: [] },
+    locations: { type: [String], required: true, default: [] },
 });
 
 const courseModel = model("Course", schema);
