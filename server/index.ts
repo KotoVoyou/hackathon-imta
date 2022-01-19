@@ -13,6 +13,7 @@ const server = new ApolloServer({
     typeDefs,
     resolvers,
     plugins: [ApolloServerPluginLandingPageLocalDefault({ footer: false })],
+    introspection: true,
 });
 server
     .start()
