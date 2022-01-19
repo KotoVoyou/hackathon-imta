@@ -20,8 +20,7 @@ class FilterBlock extends React.Component<FilterBlockConfig, {selection: string[
     handleSelectionChange(e: React.FormEvent<HTMLInputElement>, optionName: string){
         if(e.currentTarget.checked && !this.props.selected.includes(optionName)){
             this.state.selection.push(optionName);
-            //Refresh
-            this.render();
+            this.render(); //Refresh
         }
         if(!e.currentTarget.checked && this.props.selected.includes(optionName)){
             this.setState((state, _) => {
@@ -69,8 +68,10 @@ interface SearchbarProps{
     onFilterTextChange: (text: string) => void
 }
 
-class FilterPanel extends React.Component<{blocks: FilterBlockConfig[]} & SearchbarProps, {}>{
-    constructor(props: {blocks: FilterBlockConfig[]} & SearchbarProps){
+type FilterPanelProps = {blocks: FilterBlockConfig[]} & SearchbarProps;
+
+class FilterPanel extends React.Component<FilterPanelProps, {}>{
+    constructor(props: FilterPanelProps){
         super(props);
         this.handleFilterTextChange = this.handleFilterTextChange.bind(this);
     }

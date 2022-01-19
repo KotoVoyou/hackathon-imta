@@ -121,7 +121,7 @@ class FilterableTable extends React.Component<{}, SearchOptions>{
         return (
             <div className='row'>
                 <div className='column1'><FilterPanel blocks={blocks} filterText={this.state.filterText} onFilterTextChange={this.handleFilterTextChange}/></div>
-                <div className='column2'><Table ues={UELIST} filters={this.state}/></div>// /!\
+                <div className='column2'><Table ues={UELIST} filters={this.state}/></div>
             </div>
         );
     }
