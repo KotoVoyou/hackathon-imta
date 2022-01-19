@@ -6,3 +6,12 @@
 .categoryOptions{
     border-top: 1px solid black;
 }
+
+.searchLabel{
+    font-size: small;
+}
+
+.search{
+    display: flex;
+    flex-direction: column;
+  }
