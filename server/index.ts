@@ -1,60 +1,39 @@
-import express from "express";
-import cors from "cors";
+import { app as restApp, AppConfig } from "./app";
+import { ApolloServer } from "apollo-server-express";
+import { ApolloServerPluginLandingPageLocalDefault } from "apollo-server-core";
+import { typeDefs } from "./database/graphql/schema";
+import { resolvers } from "./database/graphql/resolvers";
+import { connect as connectDatabase } from "./database";
 
-import axios from "axios";
+const PORT = process.env.PORT || 3000;
 
-const app = express();
+connectDatabase();
 
-app.use(cors());
-app.use(express.json());
+const server = new ApolloServer({
+    typeDefs,
+    resolvers,
+    plugins: [ApolloServerPluginLandingPageLocalDefault({ footer: false })],
+    introspection: true,
+});
+server
+    .start()
+    .then(() => {
+        console.log(process.env.NODE_ENV);
+        const config: AppConfig = {
+            staticDirectory: `${__dirname}/${
+                process.env.STATIC_DIR || "../dist/build"
+            }`,
+        };
 
-interface MathAPIRequest {
-    number: number;
-}
+        const app = restApp(config);
+        server.applyMiddleware({ app });
 
-interface MathJsAPIResponse {
-    result: string;
-    error: string | null;
-}
-
-function isMathAPIRequest(request: any): request is MathAPIRequest {
-    return request.number !== undefined && request.number !== null;
-}
-
-app.put("/api/multiply2", (req, res) => {
-    if (!isMathAPIRequest(req.body)) return res.status(400).send("Request is wrong");
-
-    let { number } = req.body;
-
-    res.status(200).json({
-        result: number * 2,
+        app.listen({ port: PORT }, () => {
+            console.log(
+                `Server is running at http://localhost:${PORT}${server.graphqlPath}`
+            );
+        });
+    })
+    .catch((error) => {
+        console.log(error);
     });
-});
-
-app.put("/api/divide2", (req, res) => {
-    if (!isMathAPIRequest(req.body)) return res.status(400).send("Request is wrong");
-
-    let { number } = req.body;
-
-    axios
-        .post("http://api.mathjs.org/v4/", {
-            expr: `${number}/2`,
-        })
-        .then((response) => response.data as MathJsAPIResponse)
-        .then((data) => {
-            if (data.error) return res.status(400).send(data.error);
-            return res.status(200).json({
-                result: parseFloat(data.result),
-            });
-        })
-        .catch((_) => res.status(500).send("An error occurs"));
-});
-
-const staticDirectory = `${__dirname}/${process.env.STATIC_DIR || "dist"}`;
-app.use(express.static(staticDirectory));
-
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-    console.log(`App listening on port ${port}`);
-    console.log(`Serving static directory ${staticDirectory}`);
-});
