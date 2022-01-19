@@ -8,3 +8,10 @@
 Liste de filtres sur la gauche avec différentes options sous forme de checkboxes.
 
 Prévision pour la suite : 30mn - 1h pour rendre le filtrage fonctionnel (prise en compte des cases cochées).
+
+
+## Mercredi 19 janvier a.m.
+
+### Front
+
+(2h) Mise en place du filtrage des UEs, refactorisation légère du code. Ajout d'une barre de recherche.
