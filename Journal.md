@@ -15,3 +15,10 @@ Prévision pour la suite : 30mn - 1h pour rendre le filtrage fonctionnel (prise 
 ### Front
 
 (2h) Mise en place du filtrage des UEs, refactorisation légère du code. Ajout d'une barre de recherche.
+
+
+## Mercredi 19 janvier a.m.
+
+### Front
+
+(2h) Connexion à la base de données via requête GraphQL.
