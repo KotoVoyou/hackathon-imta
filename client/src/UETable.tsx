@@ -19,7 +19,7 @@ interface UE {
     logo?: string;
 }
 
-export interface FilterOptions {
+interface FilterOptions {
     slotOptions: string[];
     campusOptions: string[];
     tafOptions: string[];
@@ -28,13 +28,6 @@ export interface FilterOptions {
 interface SearchOptions extends FilterOptions {
     filterText: string;
 }
-
-// const UELIST: UE[] = [
-//     { name: "Hackathon", slots: ["E"], locations: ["Nantes"], logo: logo },
-//     { name: "Programmation appliquée aux systèmes embarqués", slots: ["D"], locations: ["Nantes"] },
-//     { name: "Espagnol", slots: [], locations: ["Brest", "Nantes", "Rennes"] },
-//     { name: "Un exemple 1", slots: ["E", "F"], locations: ["Nantes", "Rennes"] },
-// ];
 
 type TableProps = { ues: UE[] } & { filters: FilterOptions };
 
@@ -87,8 +80,8 @@ export interface FilterBlockConfig {
     handler: (selection: string[]) => void;
 }
 
-class FilterableTable extends React.Component<{}, SearchOptions> {
-    constructor(props: {}) {
+class FilterableTable extends React.Component<{ues: UE[]}, SearchOptions> {
+    constructor(props: {ues: UE[]}) {
         super(props);
         this.state = {
             slotOptions: [...Slots],
@@ -149,7 +142,7 @@ class FilterableTable extends React.Component<{}, SearchOptions> {
                         onFilterTextChange={this.handleFilterTextChange}
                     />
                 </div>
-                <div className="column2">{/* <Table ues={UELIST} filters={this.state} /> */}</div>
+                <div className="column2"><Table ues={this.props.ues} filters={this.state} /></div>
             </div>
         );
     }
@@ -170,15 +163,11 @@ function App(): ReactElement {
     const { loading, error, data } = useQuery(GQL_UES);
 
     if (loading) return <p>Chargement des UEs...</p>;
-    if (error) return <p>Erreurr</p>;
+    if (error) return <p>Erreur</p>;
+    
+    const listUes: UE[] = data.courses;
 
-    const listUes = data.courses.map(({ id, name }: UE) => {
-        return <li key={id.toString()}>{name}</li>;
-    });
-
-    return <ul>{listUes}</ul>;
-
-    // return <FilterableTable />;
+    return <FilterableTable ues={listUes}/>;
 }
 
 export default App;
