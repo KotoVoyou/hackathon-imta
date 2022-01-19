@@ -1,10 +1,10 @@
 {
-    "name": "client",
+    "name": "clientts",
     "version": "0.1.0",
     "private": true,
     "scripts": {
         "start": "react-scripts start",
-        "build": "react-scripts build",
+        "build": "react-scripts build && mv build webapp",
         "test": "react-scripts test",
         "eject": "react-scripts eject"
     },

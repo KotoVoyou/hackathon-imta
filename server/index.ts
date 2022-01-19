@@ -18,10 +18,9 @@ const server = new ApolloServer({
 server
     .start()
     .then(() => {
-        console.log(process.env.NODE_ENV);
         const config: AppConfig = {
-            staticDirectory: `${__dirname}/${
-                process.env.STATIC_DIR || "../dist/build"
+            staticDirectory: `${process.cwd()}/${
+                process.env.STATIC_DIR || "dist/webapp"
             }`,
         };
 
