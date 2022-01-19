@@ -1,5 +1,5 @@
 .card{
-    height: 120px;
+    height: 140px;
     width: 700px;
     border: 1px solid;
     margin: 5px;
@@ -7,7 +7,7 @@
 
 .header{
     background-color: #00b8de;
-    height: 30%;
+    height: 40%;
 }
 
 .details{
@@ -22,6 +22,9 @@ h4{
     vertical-align: middle;
     height: 100%;
     width: auto;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+    box-sizing: border-box;
 }
 
 .headerName{

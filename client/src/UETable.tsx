@@ -2,9 +2,7 @@ import React from 'react';
 import { ReactElement } from 'react';
 import Card from './Card'
 import { Campus, Slots, TAFs } from './enums';
-import Filter, { FilterOptions } from './Filter';
-import FilterList from './Filter';
-import App2 from './Filter'
+import FilterPanel from './Filter';
 import logo from './logo.svg';
 import './UETable.css'
 
@@ -15,14 +13,26 @@ interface UE{
     logo?: string
 }
 
+export interface FilterOptions{
+    slotOptions: string[],
+    campusOptions: string[],
+    tafOptions: string[]
+}
+
+interface SearchOptions extends FilterOptions{
+    filterText: string
+}
+
 const UELIST: UE[] = [
     {name: "Hackathon", slots: ['E'], locations: ["Nantes"], logo: logo},
     {name: "Programmation appliquée aux systèmes embarqués", slots: ['D'], locations: ["Nantes"]},
     {name: "Espagnol", slots: [], locations: ["Brest", "Nantes", "Rennes"]},
     {name: "Un exemple 1", slots: ['E', 'F'], locations: ["Nantes", "Rennes"]},
+    {name: "Un exemple 2", slots: ['A', 'F'], locations: ["Rennes"]},
+    {name: "Un exemple 3", slots: ['B', 'C', 'D'], locations: ["Brest", "Rennes"]},
 ]
 
-type TableProps = {ues: UE[]} & {filters: FilterOptions};
+type TableProps = {ues: UE[]} & {filters: SearchOptions};
 
 class Table extends React.Component<TableProps, {}>{
     constructor(props: TableProps){
@@ -34,6 +44,7 @@ class Table extends React.Component<TableProps, {}>{
     isAccepted(ue: UE): boolean{
         return this.matches(ue.slots, this.props.filters.slotOptions)
             && this.matches(ue.locations, this.props.filters.campusOptions)
+            && ue.name.toLowerCase().includes(this.props.filters.filterText.trim().toLowerCase());
             //TAFs
     }
 
@@ -69,17 +80,19 @@ export interface FilterBlockConfig{
     handler: (selection: string[]) => void
 }
 
-class FilterableTable extends React.Component<{}, FilterOptions>{
+class FilterableTable extends React.Component<{}, SearchOptions>{
     constructor(props: {}){
         super(props);
         this.state = {
             slotOptions: [...Slots],
             campusOptions: [...Campus],
-            tafOptions: [...TAFs]
+            tafOptions: [...TAFs],
+            filterText: ""
         }
         this.handleSlotChange = this.handleSlotChange.bind(this);
         this.handleCampusChange = this.handleCampusChange.bind(this);
         this.handleTAFChange = this.handleTAFChange.bind(this);
+        this.handleFilterTextChange = this.handleFilterTextChange.bind(this);
     }
 
     handleSlotChange(selected: string[]){
@@ -94,6 +107,10 @@ class FilterableTable extends React.Component<{}, FilterOptions>{
         this.setState({tafOptions: selected});
     }
 
+    handleFilterTextChange(filterText: string){
+        this.setState({filterText: filterText});
+    }
+
     render(){
         const blocks: FilterBlockConfig[] = [
             {categoryName: "Créneau", options: Slots, selected: this.state.slotOptions, handler: this.handleSlotChange},
@@ -103,7 +120,7 @@ class FilterableTable extends React.Component<{}, FilterOptions>{
 
         return (
             <div className='row'>
-                <div className='column1'><FilterList blocks={blocks}/></div>
+                <div className='column1'><FilterPanel blocks={blocks} filterText={this.state.filterText} onFilterTextChange={this.handleFilterTextChange}/></div>
                 <div className='column2'><Table ues={UELIST} filters={this.state}/></div>
             </div>
         );

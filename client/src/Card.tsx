@@ -1,6 +1,6 @@
-import React from "react";
 import { ReactElement } from "react";
 import logo from './logo.svg';
+import imtalogo from './assets/IMT_Atlantique_logo.png'
 import "./Card.css"
 
 enum Campus{
@@ -17,7 +17,7 @@ interface UEHeader{
 function CardHeader(props: UEHeader): ReactElement{
     return (
         <div className="header">
-            <img src={props.logo} className="headerLogo"/>
+            <img src={props.logo ?? imtalogo} className="headerLogo"/>
             <span className="headerName">{props.name}</span>
         </div>
     );
@@ -52,12 +52,6 @@ function Card(props: UEHeader & UEDetails): ReactElement{
             <CardHeader name={props.name} logo={props.logo}/>
             <CardDetails slots={props.slots} locations={props.locations}/>
         </div>
-    );
-}
-
-function App(){
-    return (
-        <Card name="Hackathon" logo={logo} slots={['E']} locations={['Nantes']}/>
     );
 }
 

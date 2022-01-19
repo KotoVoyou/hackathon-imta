@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './UETable'
-import App2 from './Filter'
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
