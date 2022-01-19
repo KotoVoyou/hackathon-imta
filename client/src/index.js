@@ -82,7 +82,7 @@ class NumberForm extends React.Component {
       <div>
         <form onSubmit={this.handleSubmit}>
           <label>
-            Nombre à doubler :
+            Opération :
             <input type="number" value={this.state.value} onChange={this.handleChange} />
           </label>
           <OpSelect ref={this.OpSelect1}/>
