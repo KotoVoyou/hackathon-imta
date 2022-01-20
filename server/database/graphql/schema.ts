@@ -3,13 +3,18 @@ import { DocumentNode } from "graphql";
 
 var typeDefs: Array<DocumentNode> = [];
 
-// Declare all type
 typeDefs.push(gql`
-    type User {
+    type Student {
         id: ID!
         name: String!
-        age: Int!
-        email: String
+        courses: [Course]!
+        taf: TAF
+    }
+
+    type Teacher {
+        id: ID!
+        name: String!
+        courses: [Course]!
     }
 `);
 
@@ -17,6 +22,11 @@ typeDefs.push(gql`
     type TAF {
         id: ID!
         name: String!
+        students: [Student]!
+    }
+
+    input TAFFilter {
+        name: String
     }
 
     type Slot {
@@ -37,58 +47,77 @@ typeDefs.push(gql`
         name: String!
         slots: [String]!
         locations: [Location]!
-    }
-
-    input CourseInput {
-        name: String!
-        slots: [String]
-        locations: [Location]
-    }
-
-    input CourseUpdate {
-        name: String
-        slots: [String]
-        locations: [Location]
-    }
-
-    input CourseFilter {
-        name: String
-        slots: String
-        locations: Location
+        students: [Student]!
+        teachers: [Teacher]!
     }
 `);
 
-// Declare Query aka getter
 typeDefs.push(gql`
     type Query {
-        users: [User]!
-        user(id: ID!): User
-
-        tafs: [TAF]!
+        tafs(filter: TAFFilter): [TAF]!
         taf(id: ID!): TAF
 
         slots: [Slot]!
         slot(id: ID!): Slot
 
-        courses(filter: CourseFilter): [Course]!
+        courses: [Course]!
         course(id: ID!): Course
+
+        teachers: [Teacher]!
+        teacher(id: ID!): Teacher
+
+        students: [Student]!
+        student(id: ID!): Student
     }
 `);
+
+// Declare all type
+// typeDefs.push(gql`
+//     type User {
+//         id: ID!
+//         name: String!
+//         age: Int!
+//         email: String
+//     }
+// `);
+
+// input CourseInput {
+//     name: String!
+//     slots: [String]
+//     locations: [Location]
+// }
+
+// input CourseUpdate {
+//     name: String
+//     slots: [String]
+//     locations: [Location]
+// }
+
+// input CourseFilter {
+//     name: String
+//     slots: String
+//     locations: Location
+// }
+
+// Declare Query aka getter
+
+// users: [User]!
+// user(id: ID!): User
 
 // Declare Mutation aka setter
-typeDefs.push(gql`
-    type Mutation {
-        createUser(name: String!, age: Int!, email: String): User!
-        deleteUser(id: ID!): Boolean!
+// typeDefs.push(gql`
+//     type Mutation {
+//         createUser(name: String!, age: Int!, email: String): User!
+//         deleteUser(id: ID!): Boolean!
 
-        createCourse(input: CourseInput!): Course!
-        updateCourse(id: ID!, update: CourseUpdate!): Course!
-        deleteCourse(id: ID!): Boolean!
+//         createCourse(input: CourseInput!): Course!
+//         updateCourse(id: ID!, update: CourseUpdate!): Course!
+//         deleteCourse(id: ID!): Boolean!
 
-        createTAF(name: String!): TAF!
+//         createTAF(name: String!): TAF!
 
-        createSlot(name: String!): Slot!
-    }
-`);
+//         createSlot(name: String!): Slot!
+//     }
+// `);
 
 export { typeDefs };
