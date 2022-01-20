@@ -1,17 +1,19 @@
 .card{
     height: 140px;
     width: 700px;
-    border: 1px solid;
-    margin: 5px;
 }
 
 .header{
+    position: relative;
     background-color: #00b8de;
     height: 40%;
+    border-bottom: 1px solid black;
 }
 
 .details{
     padding-left: 10px;
+    height: 60%;
+    background-color: ivory;
 }
 
 h4{
@@ -22,7 +24,6 @@ h4{
     vertical-align: middle;
     height: 100%;
     width: auto;
-    border-bottom: 1px solid black;
     border-right: 1px solid black;
     box-sizing: border-box;
 }
@@ -44,4 +45,14 @@ h4{
     content: "";
     display: table;
     clear: both;
+}
+
+.expandButton{
+    float: right;
+    font-size: xx-large;
+    color: white;
+    vertical-align: middle;
+    height: 100%;
+    width: 7%;
+    background-color: inherit;
 }

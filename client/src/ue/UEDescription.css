@@ -1,0 +1,30 @@
+.sectionCol1 {
+    float: left;
+    width: 20%;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+.sectionCol2 {
+    float: left;
+    width: 70%;
+    border-left: 1px solid black;
+    padding: 10px;
+}
+  
+/* Clear floats after the columns */
+.sectionRow:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.sectionRow{
+    border-top: 1px solid black;
+    background-color: ivory;
+}
+
+.view{
+    margin-bottom: 10px;
+    border: 2px solid black;
+}
