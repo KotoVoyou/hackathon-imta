@@ -4,6 +4,7 @@ import cors from "cors";
 import { getCourses } from "./controllers/course";
 import { teacherModel, studentModel } from "../database/models/user";
 import { tafModel } from "../database/models/taf";
+import { courseModel } from "../database/models/course";
 
 export interface AppConfig {
     staticDirectory?: string;
@@ -18,6 +19,24 @@ const app = (config: AppConfig = {}) => {
     app.get("/api/courses", (req, res) => {
         getCourses()
             .then((courses) => res.status(200).json(courses))
+            .catch((error) => res.status(400).json(error));
+    });
+
+    app.post("/api/courses", (req, res) => {
+        let { name, slots, locations, students, teachers } = req.body;
+
+        courseModel
+            .create({ name, slots, locations, students, teachers })
+            .then((course) => res.status(200).json(course))
+            .catch((error) => res.status(400).json(error));
+    });
+
+    app.delete("/api/courses/:idCourse", (req, res) => {
+        let idCourse = req.params.idCourse;
+
+        courseModel
+            .findByIdAndDelete(idCourse)
+            .then((_) => res.status(200).send("OK"))
             .catch((error) => res.status(400).json(error));
     });
 
