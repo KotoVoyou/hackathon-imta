@@ -1,24 +1,13 @@
 import React from "react";
 import { ReactElement } from "react";
-import Card from "./Card";
-import { Campus, Slots, TAFs } from "./enums";
+import { Campus, Slots, TAFs } from "../enums";
 import FilterPanel from "./Filter";
-import FilterList from "./Filter";
-import App2 from "./Filter";
-import logo from "./logo.svg";
-import { GET_UES } from "./Queries"
+import { GET_UES } from "../queries"
 import "./UETable.css";
 
-import { useQuery, gql } from "@apollo/client";
-import { ObjectId } from "mongodb";
-
-interface UE {
-    id: ObjectId;
-    name: string;
-    slots: string[];
-    locations: string[];
-    logo?: string;
-}
+import { useQuery } from "@apollo/client";
+import { UE } from "../models";
+import { UEView } from "../ue/UEDescription";
 
 interface FilterOptions {
     slotOptions: string[];
@@ -44,7 +33,6 @@ class Table extends React.Component<TableProps, {}> {
             this.matches(ue.slots, this.props.filters.slotOptions) &&
             this.matches(ue.locations, this.props.filters.campusOptions)
         );
-        //TAFs
     }
 
     matches(l1: string[], l2: string[]): boolean {
@@ -56,7 +44,11 @@ class Table extends React.Component<TableProps, {}> {
         this.props.ues.forEach((ue: UE) => {
             if (this.isAccepted(ue)) {
                 rows.push(
-                    <Card name={ue.name} logo={ue.logo} slots={ue.slots} locations={ue.locations} />
+                    <UEView name={ue.name} logo={ue.logo} slots={ue.slots} locations={ue.locations} 
+                        teachers={["Hervé GRALL", "Olivier BLANC"]} 
+                        students={["Benjamin PAILLETTE", "Fatima AFILAL", "Joanne DUMONT", "Julien KERLERO", 
+                            "Mohamed MOUSSAOUI", "Paul BESLIN", "Sabrine BEN-ALAYA", "Simon MORO", "Xi SONG"]} 
+                            colNum={3} />
                 );
             }
         });
@@ -148,17 +140,6 @@ class FilterableTable extends React.Component<{ues: UE[]}, SearchOptions> {
         );
     }
 }
-
-const GQL_UES = gql`
-    query Courses {
-        courses {
-            id
-            name
-            locations
-            slots
-        }
-    }
-`;
 
 function App(): ReactElement {
     const { loading, error, data } = useQuery(GET_UES);
