@@ -1,11 +1,7 @@
-.card{
-    height: 140px;
-    width: 700px;
-}
-
 .header{
+    height: 50px;
+    width: 700px;
     position: relative;
-    height: 40%;
     border-bottom: 1px solid black;
 }
 
@@ -19,7 +15,7 @@
 
 .details{
     padding-left: 10px;
-    height: 60%;
+    height: 80px;
     background-color: ivory;
 }
 

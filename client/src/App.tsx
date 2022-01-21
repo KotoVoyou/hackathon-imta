@@ -34,7 +34,7 @@ interface TAF {
     students?: Array<Student>;
 }
 
-const gqlRequest = GET_STUDENTS;
+const gqlRequest = GET_UES;
 
 const App = () => {
     const { loading, error, data } = useQuery(gqlRequest);
