@@ -7,6 +7,12 @@ export const GET_UES = gql`
             name
             locations
             slots
+            students{
+                name
+            }
+            teachers{
+                name
+            }
         }
     }
 `;

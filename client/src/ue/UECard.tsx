@@ -1,6 +1,5 @@
 import React from "react";
 import { ReactElement } from "react";
-import { updateVariableDeclarationList } from "typescript";
 import imtalogo from '../assets/IMT_Atlantique_logo.png'
 import { UE } from "../models";
 import "./UECard.css"

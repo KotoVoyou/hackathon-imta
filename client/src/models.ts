@@ -1,11 +1,14 @@
-export interface UE {
+export interface TAF {
     name: string;
-    slots: string[];
     locations: string[];
     logo?: string;
 }
 
+export interface UE extends TAF {
+    slots: string[];
+}
+
 export interface FullUE extends UE {
-    teachers: string[],
-    students: string[]
+    teachers: {name: string}[],
+    students: {name: string}[]
 }

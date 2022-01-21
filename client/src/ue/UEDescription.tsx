@@ -52,8 +52,8 @@ class UEView extends React.Component<UEViewProps, {show: boolean}>{
                 onExpand={this.handleCardClick}/>
                 {this.state.show &&
                     <div>
-                        <ParticipantSection colNum={this.props.colNum} role="Enseignants" names={this.props.teachers}/>
-                        <ParticipantSection colNum={this.props.colNum} role="Etudiants" names={this.props.students}/>
+                        <ParticipantSection colNum={this.props.colNum} role="Enseignants" names={this.props.teachers.map(t => t.name)}/>
+                        <ParticipantSection colNum={this.props.colNum} role="Etudiants" names={this.props.students.map(s => s.name)}/>
                     </div>
                 }
             </div>
