@@ -5,9 +5,16 @@
 
 .header{
     position: relative;
-    background-color: #00b8de;
     height: 40%;
     border-bottom: 1px solid black;
+}
+
+.blue{
+    background-color: #00b8de;
+}
+
+.green{
+    background-color: #99cc33;
 }
 
 .details{
