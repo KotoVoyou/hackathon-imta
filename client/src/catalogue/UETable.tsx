@@ -6,8 +6,8 @@ import { GET_UES } from "../queries"
 import "./UETable.css";
 
 import { useQuery } from "@apollo/client";
-import { UE } from "../models";
-import { UEView } from "../ue/UEDescription";
+import { FullUE } from "../models";
+import { CourseView } from "../ue/UEDescription";
 
 interface FilterOptions {
     slotOptions: string[];
@@ -19,7 +19,7 @@ interface SearchOptions extends FilterOptions {
     filterText: string;
 }
 
-type TableProps = { ues: UE[] } & { filters: FilterOptions };
+type TableProps = { ues: FullUE[] } & { filters: FilterOptions };
 
 class Table extends React.Component<TableProps, {}> {
     constructor(props: TableProps) {
@@ -28,7 +28,7 @@ class Table extends React.Component<TableProps, {}> {
         this.matches = this.matches.bind(this);
     }
 
-    isAccepted(ue: UE): boolean {
+    isAccepted(ue: FullUE): boolean {
         return (
             this.matches(ue.slots, this.props.filters.slotOptions) &&
             this.matches(ue.locations, this.props.filters.campusOptions)
@@ -41,13 +41,12 @@ class Table extends React.Component<TableProps, {}> {
 
     render() {
         const rows: React.ReactNode[] = [];
-        this.props.ues.forEach((ue: UE) => {
+        this.props.ues.forEach((ue: FullUE) => {
             if (this.isAccepted(ue)) {
                 rows.push(
-                    <UEView name={ue.name} logo={ue.logo} slots={ue.slots} locations={ue.locations} 
-                        teachers={["Hervé GRALL", "Olivier BLANC"]} 
-                        students={["Benjamin PAILLETTE", "Fatima AFILAL", "Joanne DUMONT", "Julien KERLERO", 
-                            "Mohamed MOUSSAOUI", "Paul BESLIN", "Sabrine BEN-ALAYA", "Simon MORO", "Xi SONG"]} 
+                    <CourseView name={ue.name} logo={ue.logo} slots={ue.slots} locations={ue.locations} 
+                        teachers={ue.teachers} 
+                        students={ue.students} 
                             colNum={3} />
                 );
             }
@@ -73,8 +72,8 @@ export interface FilterBlockConfig {
     handler: (selection: string[]) => void;
 }
 
-class FilterableTable extends React.Component<{ues: UE[]}, SearchOptions> {
-    constructor(props: {ues: UE[]}) {
+class FilterableTable extends React.Component<{ues: FullUE[]}, SearchOptions> {
+    constructor(props: {ues: FullUE[]}) {
         super(props);
         this.state = {
             slotOptions: [...Slots],
@@ -147,7 +146,7 @@ function App(): ReactElement {
     if (loading) return <p>Chargement des UEs...</p>;
     if (error) return <p>Erreur</p>;
     
-    const listUes: UE[] = data.courses;
+    const listUes: FullUE[] = data.courses;
 
     return <FilterableTable ues={listUes}/>;
 }

@@ -6,7 +6,6 @@ import App from "./catalogue/UETable";
 import DynamicApp from "./App";
 
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
-import { CardItemList } from "./custom_space/CardItems";
 
 const apolloServerUri =
     process.env.APOLLO_SERVER_URI ||
