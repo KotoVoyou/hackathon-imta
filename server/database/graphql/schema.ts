@@ -14,6 +14,18 @@ typeDefs.push(gql`
 `);
 
 typeDefs.push(gql`
+    type TAF {
+        id: ID!
+        name: String!
+    }
+
+    type Slot {
+        id: ID!
+        name: String!
+    }
+`);
+
+typeDefs.push(gql`
     enum Location {
         Brest
         Nantes
@@ -51,6 +63,13 @@ typeDefs.push(gql`
     type Query {
         users: [User]!
         user(id: ID!): User
+
+        tafs: [TAF]!
+        taf(id: ID!): TAF
+
+        slots: [Slot]!
+        slot(id: ID!): Slot
+
         courses(filter: CourseFilter): [Course]!
         course(id: ID!): Course
     }
@@ -61,9 +80,14 @@ typeDefs.push(gql`
     type Mutation {
         createUser(name: String!, age: Int!, email: String): User!
         deleteUser(id: ID!): Boolean!
+
         createCourse(input: CourseInput!): Course!
         updateCourse(id: ID!, update: CourseUpdate!): Course!
         deleteCourse(id: ID!): Boolean!
+
+        createTAF(name: String!): TAF!
+
+        createSlot(name: String!): Slot!
     }
 `);
 
