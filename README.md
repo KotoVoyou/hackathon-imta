@@ -69,6 +69,15 @@ Pour travailler en collaboration avec d’autres développeurs, il faut leur aut
 
 ## Variable environnement
 
-TODO
+Afin que le site web soit correctement servi par scalingo, il est nécessaire d'ajouter une variable d'environnement.
+
+La commande `build` construit le site dans le dossier `dist/webapp`, donc il est nécessaire d'associer cette valeur à la variable `STATIC_DIR`.
 
 ## Installation d'une base de données
+
+Le service web fonctionne à l'aide d'une base de données [mongoDB](https://www.mongodb.com/). Scalingo propose un service mongoDB pour l'activer il faut ajouter un addon
+![](images/image11.png)
+
+Pour utiliser la base mongoDB dans l'application il est nécessaire d'avoir une variable d'environnement `MONGO_URL` de la forme `mongodb://user:password@host:port/db-name`
+
+Si la base de données est fourni par scalingo cette variable est crée automatiquement.
