@@ -152,4 +152,5 @@ function App(): ReactElement {
     return <FilterableTable ues={listUes}/>;
 }
 
+export {FilterableTable}
 export default App;

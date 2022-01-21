@@ -1,6 +1,8 @@
 import React from "react";
 
 import { useQuery, gql } from "@apollo/client";
+import { FullUE } from "./models";
+import { FilterableTable } from "./catalogue/UETable";
 
 interface Course {
     id: string;
@@ -54,8 +56,8 @@ const App = () => {
     if (error) return <p>Erreur</p>;
 
     if (data.courses) {
-        const courses: Array<Course> = data.courses;
-        return CourseList({ courses });
+        const courses: FullUE[] = data.courses;
+        return <FilterableTable ues={courses}/>;
     }
 
     if (data.students) {
