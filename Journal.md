@@ -21,8 +21,10 @@ Prévision pour la suite : 30mn - 1h pour rendre le filtrage fonctionnel (prise 
 
 ### Back
 
+(1h) Mise en place du serveur d'interface GraphQL et récupération des UEs avec graphQL
+(2h) Ajout de données supplémentaire (étudiants, profs, taf)
 
-## Mercredi 19 janvier a.m.
+## Mercredi 19 janvier p.m.
 
 ### Front
 
@@ -30,6 +32,7 @@ Prévision pour la suite : 30mn - 1h pour rendre le filtrage fonctionnel (prise 
 
 ### Back
 
+(2h) Création de lien entre les différentes données (notion de graphe) et création des différents resolvers pour les resources.
 
 ## Vendredi 21 janvier a.m.
 
@@ -39,6 +42,7 @@ Prévision pour la suite : 30mn - 1h pour rendre le filtrage fonctionnel (prise 
 
 ### Back
 
+(1h) Test de graphQL et correction de léger bugs
 
 ## Vendredi 21 janvier p.m.
 
@@ -47,7 +51,3 @@ Prévision pour la suite : 30mn - 1h pour rendre le filtrage fonctionnel (prise 
 ### Front
 
 (1h) Mise en forme des listes d'étudiants/enseignants.
-
-### Back
-
-
