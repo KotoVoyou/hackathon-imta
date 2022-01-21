@@ -1,7 +1,10 @@
 import express from "express";
 import cors from "cors";
 
-import axios from "axios";
+import { getCourses } from "./controllers/course";
+import { teacherModel, studentModel } from "../database/models/user";
+import { tafModel } from "../database/models/taf";
+import { courseModel } from "../database/models/course";
 
 export interface AppConfig {
     staticDirectory?: string;
@@ -13,48 +16,77 @@ const app = (config: AppConfig = {}) => {
     app.use(cors());
     app.use(express.json());
 
-    interface MathAPIRequest {
-        number: number;
-    }
-
-    interface MathJsAPIResponse {
-        result: string;
-        error: string | null;
-    }
-
-    function isMathAPIRequest(request: any): request is MathAPIRequest {
-        return request.number !== undefined && request.number !== null;
-    }
-
-    app.put("/api/multiply2", (req, res) => {
-        if (!isMathAPIRequest(req.body))
-            return res.status(400).send("Request is wrong");
-
-        let { number } = req.body;
-
-        res.status(200).json({
-            result: number * 2,
-        });
+    app.get("/api/courses", (req, res) => {
+        getCourses()
+            .then((courses) => res.status(200).json(courses))
+            .catch((error) => res.status(400).json(error));
     });
 
-    app.put("/api/divide2", (req, res) => {
-        if (!isMathAPIRequest(req.body))
-            return res.status(400).send("Request is wrong");
+    app.post("/api/courses", (req, res) => {
+        let { name, slots, locations, students, teachers } = req.body;
 
-        let { number } = req.body;
+        courseModel
+            .create({ name, slots, locations, students, teachers })
+            .then((course) => res.status(200).json(course))
+            .catch((error) => res.status(400).json(error));
+    });
 
-        axios
-            .post("http://api.mathjs.org/v4/", {
-                expr: `${number}/2`,
-            })
-            .then((response) => response.data as MathJsAPIResponse)
-            .then((data) => {
-                if (data.error) return res.status(400).send(data.error);
-                return res.status(200).json({
-                    result: parseFloat(data.result),
-                });
-            })
-            .catch((_) => res.status(500).send("An error occurs"));
+    app.delete("/api/courses/:idCourse", (req, res) => {
+        let idCourse = req.params.idCourse;
+
+        courseModel
+            .findByIdAndDelete(idCourse)
+            .then((_) => res.status(200).send("OK"))
+            .catch((error) => res.status(400).json(error));
+    });
+
+    app.get("/api/teachers", (req, res) => {
+        teacherModel
+            .find()
+            .then((teachers) => res.status(200).json(teachers))
+            .catch((error) => res.status(400).json(error));
+    });
+
+    app.post("/api/teachers", (req, res) => {
+        let { name } = req.body;
+
+        teacherModel
+            .create({ name })
+            .then((teacher) => res.status(200).json(teacher))
+            .catch((error) => res.status(400).json(error));
+    });
+
+    app.get("/api/students", (req, res) => {
+        studentModel
+            .find()
+            .populate("taf")
+            .then((students) => res.status(200).json(students))
+            .catch((error) => res.status(400).json(error));
+    });
+
+    app.post("/api/students", (req, res) => {
+        let { name, taf } = req.body;
+
+        studentModel
+            .create({ name, taf })
+            .then((student) => res.status(200).json(student))
+            .catch((error) => res.status(400).json(error));
+    });
+
+    app.get("/api/taf", (req, res) => {
+        tafModel
+            .find()
+            .then((tafs) => res.status(200).json(tafs))
+            .catch((error) => res.status(400).json(error));
+    });
+
+    app.post("/api/taf", (req, res) => {
+        let { name } = req.body;
+
+        tafModel
+            .create({ name })
+            .then((taf) => res.status(200).json(taf))
+            .catch((error) => res.status(400).json(error));
     });
 
     // Serve static directory containing the website
