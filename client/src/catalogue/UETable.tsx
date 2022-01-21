@@ -7,7 +7,7 @@ import "./UETable.css";
 
 import { useQuery } from "@apollo/client";
 import { FullUE } from "../models";
-import { UEView } from "../ue/UEDescription";
+import { CourseView } from "../ue/UEDescription";
 
 interface FilterOptions {
     slotOptions: string[];
@@ -44,7 +44,7 @@ class Table extends React.Component<TableProps, {}> {
         this.props.ues.forEach((ue: FullUE) => {
             if (this.isAccepted(ue)) {
                 rows.push(
-                    <UEView name={ue.name} logo={ue.logo} slots={ue.slots} locations={ue.locations} 
+                    <CourseView name={ue.name} logo={ue.logo} slots={ue.slots} locations={ue.locations} 
                         teachers={ue.teachers} 
                         students={ue.students} 
                             colNum={3} />

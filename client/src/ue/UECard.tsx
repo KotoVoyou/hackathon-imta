@@ -1,12 +1,13 @@
 import React from "react";
 import { ReactElement } from "react";
 import imtalogo from '../assets/IMT_Atlantique_logo.png'
-import { UE } from "../models";
+import { TAF, UE } from "../models";
 import "./UECard.css"
 
 interface HeaderProps{
     name: string,
     logo?: string,
+    color?: string,
     onExpand: () => void
 }
 
@@ -26,7 +27,7 @@ class CardHeader extends React.Component<HeaderProps, {buttonText: string}>{
 
     render(){
         return (
-            <div className="header">
+            <div className={`header ${this.props.color}`}>
                 <img src={this.props.logo ?? imtalogo} className="headerLogo"/>
                 <span className="headerName">{this.props.name}</span>
                 <button className="expandButton" onClick={this.handleClick}>{this.state.buttonText}</button>
@@ -58,13 +59,21 @@ function CardDetails(props: UEDetails): ReactElement{
     );
 }
 
-function Card(props: UE & {onExpand: () => void}): ReactElement{
+function UECard(props: UE & {onExpand: () => void}): ReactElement{
     return(
         <div className="card">
-            <CardHeader name={props.name} logo={props.logo} onExpand={props.onExpand}/>
+            <CardHeader name={props.name} logo={props.logo} onExpand={props.onExpand} color="blue"/>
             <CardDetails slots={props.slots} locations={props.locations}/>
         </div>
     );
 }
 
-export default Card;
+function TAFCard(props: TAF & {onExpand: () => void}): ReactElement {
+    return(
+        <div className="card">
+            <CardHeader name={props.name} logo={props.logo} onExpand={props.onExpand} color="green"/>
+        </div>
+    );
+}
+
+export {UECard, TAFCard};

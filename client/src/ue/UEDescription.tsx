@@ -1,7 +1,7 @@
 import React from "react";
 import { ReactElement } from "react";
-import { FullUE } from "../models";
-import Card from "./UECard";
+import { FullTAF, FullUE } from "../models";
+import { TAFCard, UECard } from "./UECard";
 import "./UEDescription.css"
 
 interface ParticipantList{
@@ -32,10 +32,10 @@ function ParticipantSection(props: ParticipantList): ReactElement{
     );
 }
 
-type UEViewProps = FullUE & {colNum: number};
+type CourseViewProps = FullUE & {colNum: number};
 
-class UEView extends React.Component<UEViewProps, {show: boolean}>{
-    constructor(props: UEViewProps){
+class CourseView extends React.Component<CourseViewProps, {show: boolean}>{
+    constructor(props: CourseViewProps){
         super(props);
         this.state = {show: false};
         this.handleCardClick = this.handleCardClick.bind(this);
@@ -48,7 +48,7 @@ class UEView extends React.Component<UEViewProps, {show: boolean}>{
     render(){
         return (
             <div className="view">
-                <Card name={this.props.name} logo={this.props.logo} slots={this.props.slots} locations={this.props.locations}
+                <UECard name={this.props.name} logo={this.props.logo} slots={this.props.slots} locations={this.props.locations}
                 onExpand={this.handleCardClick}/>
                 {this.state.show &&
                     <div>
@@ -61,4 +61,33 @@ class UEView extends React.Component<UEViewProps, {show: boolean}>{
     }
 }
 
-export {UEView};
+type TAFViewProps = FullTAF & {colNum: number};
+
+class TAFView extends React.Component<TAFViewProps, {show: boolean}>{
+    constructor(props: TAFViewProps){
+        super(props);
+        this.state = {show: false};
+        this.handleCardClick = this.handleCardClick.bind(this);
+    }
+
+    handleCardClick(){
+        this.setState(state => ({show: !state.show}));
+    }
+
+    render(){
+        return (
+            <div className="view">
+                <TAFCard name={this.props.name} logo={this.props.logo} locations={this.props.locations}
+                onExpand={this.handleCardClick}/>
+                {this.state.show &&
+                    <div>
+                        <ParticipantSection colNum={this.props.colNum} role="Enseignants" names={this.props.teachers.map(t => t.name)}/>
+                        <ParticipantSection colNum={this.props.colNum} role="Etudiants" names={this.props.students.map(s => s.name)}/>
+                    </div>
+                }
+            </div>
+        );
+    }
+}
+
+export {CourseView, TAFView};
