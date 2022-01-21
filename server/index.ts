@@ -1,7 +1,7 @@
 import { app as restApp, AppConfig } from "./app";
 import { ApolloServer } from "apollo-server-express";
 import { ApolloServerPluginLandingPageLocalDefault } from "apollo-server-core";
-import { typeDefs } from "./database/graphql/schema";
+import { schema as typeDefs } from "./database/graphql/schema";
 import { resolvers } from "./database/graphql/resolvers";
 import { connect as connectDatabase } from "./database";
 
@@ -19,14 +19,18 @@ server
     .start()
     .then(() => {
         const config: AppConfig = {
-            staticDirectory: `${process.cwd()}/${process.env.STATIC_DIR || "dist/webapp"}`,
+            staticDirectory: `${process.cwd()}/${
+                process.env.STATIC_DIR || "dist/webapp"
+            }`,
         };
 
         const app = restApp(config);
         server.applyMiddleware({ app });
 
         app.listen({ port: PORT }, () => {
-            console.log(`Server is running at http://localhost:${PORT}${server.graphqlPath}`);
+            console.log(
+                `Server is running at http://localhost:${PORT}${server.graphqlPath}`
+            );
         });
     })
     .catch((error) => {

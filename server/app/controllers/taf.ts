@@ -1,18 +1,18 @@
-import { ObjectId } from "mongoose";
+import { ObjectId } from "mongodb";
 
-import { model, TAF } from "../../database/models/taf";
+import { tafModel, TAF, TAFFilter } from "../../database/models/taf";
 
-export const getTAFs = (): Promise<Array<TAF>> =>
+export const getTAFs = (filter: TAFFilter): Promise<Array<TAF>> =>
     new Promise((resolve, reject) => {
-        model
-            .find()
+        tafModel
+            .find(filter)
             .then((tafs) => resolve(tafs))
             .catch((error) => reject(error));
     });
 
 export const getTAFById = (id: ObjectId): Promise<TAF> =>
     new Promise((resolve, reject) => {
-        model
+        tafModel
             .findById(id)
             .then((taf) => resolve(taf))
             .catch((error) => reject(error));
@@ -20,7 +20,7 @@ export const getTAFById = (id: ObjectId): Promise<TAF> =>
 
 export const createTAF = (newTAF: TAF): Promise<TAF> =>
     new Promise((resolve, reject) => {
-        model
+        tafModel
             .create(newTAF)
             .then((taf) => resolve(taf))
             .catch((error) => reject(error));
