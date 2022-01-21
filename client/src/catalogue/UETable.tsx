@@ -140,16 +140,4 @@ class FilterableTable extends React.Component<{ues: FullUE[]}, SearchOptions> {
     }
 }
 
-function App(): ReactElement {
-    const { loading, error, data } = useQuery(GET_UES);
-
-    if (loading) return <p>Chargement des UEs...</p>;
-    if (error) return <p>Erreur</p>;
-    
-    const listUes: FullUE[] = data.courses;
-
-    return <FilterableTable ues={listUes}/>;
-}
-
 export {FilterableTable}
-export default App;

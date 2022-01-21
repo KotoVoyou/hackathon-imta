@@ -13,6 +13,7 @@ interface HeaderProps{
 
 const EXPANDED: string = 'v';
 const COLLAPSED: string = '^';
+
 class CardHeader extends React.Component<HeaderProps, {buttonText: string}>{
     constructor(props: HeaderProps){
         super(props);
@@ -76,4 +77,4 @@ function TAFCard(props: TAF & {onExpand: () => void}): ReactElement {
     );
 }
 
-export {UECard, TAFCard};
+export { CardHeader, CardDetailColumn, UECard, TAFCard};

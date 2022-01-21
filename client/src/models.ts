@@ -8,6 +8,11 @@ export interface UE extends TAF {
     slots: string[];
 }
 
+export interface Person {
+    name: string,
+    courses: FullUE[]
+}
+
 interface Participants {
     teachers: {name: string}[],
     students: {name: string}[]

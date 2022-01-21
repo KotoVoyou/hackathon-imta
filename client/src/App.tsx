@@ -1,8 +1,10 @@
 import React from "react";
 
 import { useQuery, gql } from "@apollo/client";
-import { FullUE } from "./models";
+import { FullUE, Person } from "./models";
 import { FilterableTable } from "./catalogue/UETable";
+import { PersonTable } from "./person/PersonCard";
+import { GET_STUDENTS, GET_TEACHERS, GET_UES } from "./queries";
 
 interface Course {
     id: string;
@@ -32,25 +34,10 @@ interface TAF {
     students?: Array<Student>;
 }
 
-const gqlRequest = `
-{
-    courses {
-        id
-        name
-        slots
-        locations
-        teachers {
-          name
-        }
-        students {
-          name
-        }
-    }
-}
-`;
+const gqlRequest = GET_STUDENTS;
 
 const App = () => {
-    const { loading, error, data } = useQuery(gql(gqlRequest));
+    const { loading, error, data } = useQuery(gqlRequest);
 
     if (loading) return <p>Chargement...</p>;
     if (error) return <p>Erreur</p>;
@@ -61,13 +48,13 @@ const App = () => {
     }
 
     if (data.students) {
-        const students: Array<Student> = data.students;
-        return StudentList({ students });
+        const students: Person[] = data.students;
+        return <PersonTable people={students}/>
     }
 
     if (data.teachers) {
-        const teachers: Array<Teacher> = data.teachers;
-        return TeacherList({ teachers });
+        const teachers: Person[] = data.teachers;
+        return <PersonTable people={teachers}/>
     }
 
     return <p>Rien à afficher</p>;
